@@ -1,0 +1,23 @@
+services:
+  database:
+    image: mysql:5.7         # Using the official MySQL 5.7 image
+    container_name: weather_db
+    environment:
+      - MYSQL_ROOT_PASSWORD=your_password   # Root password
+      - MYSQL_DATABASE=weather_db           # Database name to be created
+      #- MYSQL_USER=weather_user             # Optional: additional user
+      # - MYSQL_PASSWORD=weather_password     # Optional: password for the additional user
+    volumes:
+      - db_data:/var/lib/mysql              # Mounting the volume to persist data
+    networks:
+      - weather-net                         # Docker network to allow inter-container communication
+    ports:
+      - "3306:3306"                         # Exposing MySQL on port 3306 (optional for testing)
+
+networks:
+  weather-net:
+    driver: bridge
+
+volumes:
+  db_data:
+    external: true                          # Specify that we’re using an existing volume
